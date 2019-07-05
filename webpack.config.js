@@ -27,7 +27,8 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
+          use: 'css-loader',
+          publicPath: '../'
         })
       },
       {
@@ -41,8 +42,24 @@ module.exports = {
             {
               loader: 'sass-loader'
             }
-          ]
-        })
+          ],
+          publicPath: '../'
+        }),
+        include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules/swiper')]
+        // exclude: /node_modules\/(?!(swiper)\/).*/
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-withimg-loader'
+        }
       }
     ]
   },
@@ -55,12 +72,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'Output Management',
-      filename: 'yinli.html',
-      template: path.resolve(__dirname, 'src/yinli.html')
+      filename: 'copy.html',
+      template: path.resolve(__dirname, 'src/copy.html')
     }),
     new ExtractTextPlugin({
       filename: getPath => {
-        console.log(getPath('css/[name].css'))
         return getPath('css/[name].[hash].css').replace('css/app', 'css/app')
       },
       allChunks: true
