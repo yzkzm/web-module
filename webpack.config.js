@@ -27,7 +27,14 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader',
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'postcss-loader'
+            }
+          ],
           publicPath: '../'
         })
       },
@@ -38,6 +45,9 @@ module.exports = {
           use: [
             {
               loader: 'css-loader'
+            },
+            {
+              loader: 'postcss-loader'
             },
             {
               loader: 'sass-loader'
@@ -57,9 +67,23 @@ module.exports = {
       },
       {
         test: /\.(html)$/,
-        use: {
-          loader: 'html-withimg-loader'
-        }
+        use: [
+          {
+            loader: 'html-withimg-loader'
+          },
+          {
+            loader: './loaders/html-vw-loader.js',
+            options: {
+              outerTag: 'html',
+              viewportWidth: 750,
+              // viewportHeight: 1334,
+              unitPrecision: 3,
+              viewportUnit: 'vw',
+              selectorBlackList: [],
+              minPixelValue: 1
+            }
+          }
+        ]
       }
     ]
   },
@@ -70,11 +94,6 @@ module.exports = {
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html')
     }),
-    new HtmlWebpackPlugin({
-      title: 'Output Management',
-      filename: 'copy.html',
-      template: path.resolve(__dirname, 'src/copy.html')
-    }),
     new ExtractTextPlugin({
       filename: getPath => {
         return getPath('css/[name].[hash].css').replace('css/app', 'css/app')
@@ -84,6 +103,6 @@ module.exports = {
   ],
   devServer: {
     contentBase: './dist',
-    host: '0.0.0.0'
+    port: '8091'
   }
 }
