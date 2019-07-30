@@ -1,3 +1,14 @@
+@import 'node_modules/sass-bem/bem';
 h2 {
-  width: 200px;
+  color: red;
+  font-size: 28px;
+  line-height: 40px;
+}
+body {
+  font-size: 30px;
+}
+@include b(mars-container) {
+  @include e(content) {
+    width: 120px;
+  }
 }
