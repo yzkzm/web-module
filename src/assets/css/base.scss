@@ -12,3 +12,8 @@ body {
     width: 120px;
   }
 }
+@include b(mars-container) {
+  @include e(content) {
+    width: 120px;
+  }
+}
