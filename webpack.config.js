@@ -70,11 +70,6 @@ module.exports = {
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html')
     }),
-    new HtmlWebpackPlugin({
-      title: 'Output Management',
-      filename: 'copy.html',
-      template: path.resolve(__dirname, 'src/copy.html')
-    }),
     new ExtractTextPlugin({
       filename: getPath => {
         return getPath('css/[name].[hash].css').replace('css/app', 'css/app')
